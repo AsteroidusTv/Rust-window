@@ -1,0 +1,5 @@
+use gtk::pre
+
+fn main() {
+    println!("Hello, world!");
+}

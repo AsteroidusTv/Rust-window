@@ -1,0 +1,5 @@
+use gtk::prolud
+
+fn main() {
+    println!("Hello, world!");
+}

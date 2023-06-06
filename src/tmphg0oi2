@@ -1,0 +1,46 @@
+use rand::random;
+use gtk::prelude::*;
+use gtk::{Application, ApplicationWindow, Button, Label, Box, Orientation};
+
+fn main() {
+    let app = Application::builder()
+        .application_id("Test")
+        .build();
+
+    app.connect_activate(buil_ui);
+    app.run();
+}
+fn buil_ui(app : &Application) {
+    let label = Label::builder()
+        .label("Press fl")
+        .margin_top(12)
+        .margin_bottom(12)
+        .margin_start(12)
+        .margin_end(12)
+        .build();
+    let button = Button::builder()
+        .label("Click me")
+        .margin_top(12)
+        .margin_bottom(12)
+        .margin_start(12)
+        .margin_end(12)
+        .build();
+    let window = ApplicationWindow::builder()
+        .title("Test")
+        .application(app)
+        .child(&button)
+        .build();
+
+    button.connect_clicked(move |_| flip_coin());
+
+    window.show();
+}
+
+fn flip_coin() {
+    if random() {
+        println!("Heads")
+    }
+    else {
+        println!("Tails")
+    }
+}
