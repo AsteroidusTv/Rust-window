@@ -1,5 +1,0 @@
-use gtk::pr
-
-fn main() {
-    println!("Hello, world!");
-}

@@ -1,6 +1,0 @@
-use gtk::prelude::*;
-use gtk::App
-
-fn main() {
-    println!("Hello, world!");
-}
