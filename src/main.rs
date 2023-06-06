@@ -1,25 +1,31 @@
-use rand::random;
+use rand::{distributions::Alphanumeric, Rng};
 use gtk::prelude::*;
 use gtk::{Application, ApplicationWindow, Button, Label, Box, Orientation};
 
 fn main() {
     let app = Application::builder()
-        .application_id("Test")
+        .application_id("Password generator")
         .build();
 
-    app.connect_activate(buil_ui);
+    app.connect_activate(|app| {
+        build_ui(app);
+    });
+
     app.run();
 }
-fn buil_ui(app : &Application) {
+
+fn build_ui(app: &Application) {
     let label = Label::builder()
-        .label("Press flip coin to begin")
-        .margin_top(12)
-        .margin_bottom(12)
+        .label("Get password")
+        .margin_top(100)
         .margin_start(12)
         .margin_end(12)
         .build();
+
+
+
     let button = Button::builder()
-        .label("Flip coin")
+        .label("GET RANDOM PASSWORD")
         .margin_top(12)
         .margin_bottom(12)
         .margin_start(12)
@@ -31,21 +37,34 @@ fn buil_ui(app : &Application) {
     content.append(&button);
 
     let window = ApplicationWindow::builder()
-        .title("Test")
+        .title("Password generator")
         .application(app)
         .child(&content)
         .build();
 
-    button.connect_clicked(move |_| flip_coin(&label));
+    window.set_default_size(780, 480);
+    button.set_size_request(120, 60);
+
+    button.connect_clicked(move |_| {
+        let result = get_password();
+        label.set_text(&result);
+    });
 
     window.show();
 }
 
-fn flip_coin(label: &Label) {
-    if random() {
-        label.set_text("Heads")
-    }
-    else {
-       label.set_text("Tails")
-    }
+fn get_password() -> String {
+    let s: String = rand::thread_rng()
+        .sample_iter(&Alphanumeric)
+        .take(get_random_number())
+        .map(char::from)
+        .collect();
+    s
+}
+
+fn get_random_number() -> usize {
+
+    let mut rng = rand::thread_rng();
+    rng.gen_range(14..20)
+
 }
