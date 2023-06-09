@@ -2,6 +2,7 @@ use rand::{distributions::Alphanumeric, Rng};
 use gtk::prelude::*;
 use gtk::{Application, ApplicationWindow, Button, Label, Box, Orientation};
 
+
 fn main() {
     let app = Application::builder()
         .application_id("Password generator")
