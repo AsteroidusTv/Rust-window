@@ -14,13 +14,13 @@ Please follow the instructions below to install the required packages based on y
 #### Ubuntu/Debian
 
 ```bash
-sudo apt-get install libglib2.0-dev libgirepository1.0-dev
+sudo apt-get install libglib2.0-dev libgirepository1.0-dev libcairo2-dev libgdk-pixbuf2.0-dev libpango1.0-dev libgtk-4-dev
 ```
 #### Fedora/CentOs
 ```bash
-sudo dnf install glib2-devel gobject-introspection-devel
+sudo dnf install glib2-devel gobject-introspection-devel cairo-devel gdk-pixbuf2-devel pango-devel gtk4-devel
 ```
 #### Arch linux
 ```bash
-sudo pacman -S glib2 gobject-introspection
+sudo pacman -S glib2 gobject-introspection cairo gdk-pixbuf2 pango gtk4
 ```
