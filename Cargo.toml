@@ -8,3 +8,8 @@ edition = "2021"
 [dependencies]
 rand = "0.8.5"
 gtk = { version = "0.6.6", package = "gtk4" }
+glib = "0.17.10"
+glib-sys = "0.17.10"
+gio = "0.17.10"
+gio-2-0-sys = "0.46.4"
+pango-sys = "0.17.10"
