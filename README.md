@@ -21,7 +21,6 @@ sudo apt-get install libglib2.0-dev libgirepository1.0-dev
 sudo dnf install glib2-devel gobject-introspection-devel
 ```
 #### Arch linux
-
-``bash
+```bash
 sudo pacman -S glib2 gobject-introspection
 ```
