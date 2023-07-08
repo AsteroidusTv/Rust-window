@@ -1,71 +1,71 @@
-use rand::{distributions::Alphanumeric, Rng};
-use gtk::prelude::*;
-use gtk::{Application, ApplicationWindow, Button, Label, Box, Orientation};
-
+use gtk4::glib::clone;
+use gtk4::glib;
+use gtk4::prelude::*;
+use rand::Rng;
 
 fn main() {
-    let app = Application::builder()
-        .application_id("Password generator")
+    let number = rand::thread_rng().gen_range(0..100);
+    // Create a new application with the builder pattern
+    let app = gtk4::Application::builder()
+        .application_id("com.github.gtk-rs.examples.basic")
         .build();
+    app.connect_activate(move |app| on_activate(app, number));
 
-    app.connect_activate(|app| {
-        build_ui(app);
-    });
-
+    // Run the application
     app.run();
 }
 
-fn build_ui(app: &Application) {
-    let label = Label::builder()
-        .label("Get password")
-        .margin_top(100)
-        .margin_start(12)
-        .margin_end(12)
-        .build();
+// When the application is launched…
+fn on_activate(application: &gtk4::Application, number: i32) {
+    // … create a new window …
+    let window = gtk4::ApplicationWindow::new(application);
 
+    // Create a vertical box layout to hold the widgets
+    let box_layout = gtk4::Box::new(gtk4::Orientation::Vertical, 10);
 
+    // Create a text input entry
+    let text_entry = gtk4::Entry::new();
+    text_entry.set_placeholder_text(Some("Enter your number"));
 
-    let button = Button::builder()
-        .label("GET RANDOM PASSWORD")
-        .margin_top(12)
-        .margin_bottom(12)
-        .margin_start(12)
-        .margin_end(12)
-        .build();
+    // Create a button
+    let button = gtk4::Button::with_label("Print Text");
 
-    let content = Box::new(Orientation::Vertical, 0);
-    content.append(&label);
-    content.append(&button);
+    // Create a label
+    let label = gtk4::Label::new(None);
 
-    let window = ApplicationWindow::builder()
-        .title("Password generator")
-        .application(app)
-        .child(&content)
-        .build();
+    // Handle button click event
+    button.connect_clicked(clone!(@weak text_entry, @weak label => move |_| {
+        let text = text_entry.text();
+        println!("Entered text: {:?}", text);
+        let enter = text.parse::<i32>().unwrap();
+        let response = game(enter, number);
+        label.set_text(response);
+    }));
 
-    window.set_default_size(780, 480);
-    button.set_size_request(120, 60);
+    // Set margin to box 
+    box_layout.set_margin_start(10);
+    box_layout.set_margin_end(10);
+    box_layout.set_margin_top(10);
+    box_layout.set_margin_bottom(10);
 
-    button.connect_clicked(move |_| {
-        let result = get_password();
-        label.set_text(&result);
-    });
+    // Add the widgets to the box layout
+    box_layout.append(&text_entry);
+    box_layout.append(&button);
+    box_layout.append(&label);
 
-    window.show();
+    // Add the box layout to the window
+    window.set_child(Some(&box_layout));
+
+    window.present();
 }
 
-fn get_password() -> String {
-    let s: String = rand::thread_rng()
-        .sample_iter(&Alphanumeric)
-        .take(get_random_number())
-        .map(char::from)
-        .collect();
-    s
-}
+fn game(entered_number: i32, target_number: i32) -> &'static str {
 
-fn get_random_number() -> usize {
-
-    let mut rng = rand::thread_rng();
-    rng.gen_range(14..20)
-
+    if entered_number > target_number {
+        "Plus petit"
+    } else if entered_number < target_number {
+        "Plus grand"
+    } else {
+        "Gagné"
+    }
 }
